@@ -1,0 +1,16 @@
+
+pypy:
+====
+安装
+```
+$ yum install -y pypy
+```
+
+扩展阅读：
+======
+利用pypy提高python脚本的执行速度及测试性能 
+http://www.tuicool.com/articles/NBjQBn 
+简介： 
+简单地说, PyPy 是用 Python 语言写了一个工具, 将 Python 代码成 C, .NET, Java 等语言和平台的代码. PHP 也有类似的项目 – HipHop-PHP, 把 PHP 代码转成 C++ 代码.
+
+为什么要将一种语言转成另一种语言? 首先是目标语言可能在性能(如C语言)和/或跨平台(如 .NET, Java)等方面具有优势. 其次, 在转换的过程, 可以进行代码优化或加入新技术, 比如 PyPy 应用的 Just-in-Time(JIT) 技术, 能让 Python (事实上是转换后的目标代码)的执行速度更快.
