@@ -1,0 +1,457 @@
+
+
+应该学习最新版本的 Python 3 还是旧版本的 Python 2？
+http://www.zhihu.com/question/24549965
+简介：
+知乎上的一个讨论，内容还是挺多的....
+
+
+支持py3:
+
+徐酿泉，底层不熟
+
+十个碉堡了的 Python 特性，你不能用是因为你拒绝升级 Python 3
+http://asmeurer.github.io/python3-presentation/slides.html#1
+
+(翻页用方向键)  上， 下。
+
+
+调侃：
+
+
+说好的「There's Only One Way To Do It」呢？
+
+
+Python教程 - 廖雪峰的官方网站
+
+他实战部分我也是python3写的↓↓↓
+caolinjian/awesome-python3-webapp · GitHub
+
+
+http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+说Python2.x的库很多都没迁移的，这句话放在去年，还有点道理，今年就呵呵了
+Python2.x和Python3.x确实已经并行的两种语言，但，这世界濒临淘汰的语言还少吗？Delphi，Fortran，库也不少啊。如今呢？（大家别喷啊，我只是举例。。。）Ada还号称语言最完善的呢
+
+
+必须果断学 3，并且，万一有需要要写 Py2 的东西，记得最开始写上
+from __future__ import division, print_function
+
+
+
+一个在不断进化,越来越强大,越来越好用,且已经足够好用  python3
+一个永远不再有新元素增加,用的人越来越少,  python2
+
+
+虽然我不懂，但是我建议3，向后兼容是不应该考虑的，时代是向前发展的！
+
+
+的确是， 不应该有太多历史包袱....
+
+
+
+
+详解：
+-------
+
+十个碉堡了的 Python 特性，你不能用是因为你拒绝升级 Python 3
+http://asmeurer.github.io/python3-presentation/slides.html#1
+
+
+
+prelude ['prelju:d, 'prei-]
+
+基本释义
+
+n.序幕; 前奏
+vt. 成为…的序幕;演奏…作为前奏曲
+
+
+mandatory ['mændətəri:, -,tɔ:ri]
+
+基本释义
+
+adj.托管的;强制的
+n. 受托者
+
+
+Feature 0: Matrix Multiplication
+
+(feature 0 because you can't actually use it yet)
+
+PEP 465
+
+In Python 3.5, you'll be able to replace
+
+>>> a = np.array([[1, 0], [0, 1]])
+>>> b = np.array([[4, 1], [2, 2]])
+>>> np.dot(a, b)
+array([[4, 1],
+     [2, 2]])
+with
+
+>>> a = np.array([[1, 0], [0, 1]])
+>>> b = np.array([[4, 1], [2, 2]])
+>>> a @ b
+array([[4, 1],
+   [2, 2]])
+Any object can override __matmul__ to use @.
+
+
+
+Feature 1: Advanced unpacking  高级拆包。
+
+#NOTE: 使用 * 做替换符， 好给力.... 
+
+You can already do this:
+
+>>> a, b = range(2)
+>>> a
+0
+>>> b
+1
+Now you can do this:
+
+>>> a, b, *rest = range(10)
+>>> a
+0
+>>> b
+1
+>>> rest
+[2, 3, 4, 5, 6, 7, 8, 9]
+*rest can go anywhere:
+
+>>> a, *rest, b = range(10)
+>>> a
+0
+>>> b
+9
+>>> rest
+[1, 2, 3, 4, 5, 6, 7, 8]
+>>> *rest, b = range(10)
+>> rest
+[0, 1, 2, 3, 4, 5, 6, 7, 8]
+>>> b
+9
+
+
+应用举例：
+
+Get the first and last lines of a file
+
+>>> with open("using_python_to_profit") as f:
+...     first, *_, last = f.readlines()
+>>> first
+'Step 1: Use Python 3\n'
+>>> last
+'Step 10: Profit!\n'
+Refactor your functions
+
+def f(a, b, *args):
+    stuff
+def f(*args):
+    a, b, *args = args
+    stuff
+
+
+Feature 2: Keyword only arguments  关键字参数
+
+def f(a, b, *args, option=True):
+    ...
+option comes after *args.
+
+The only way to access it is to explicitly call f(a, b, option=True)
+
+You can write just a * if you don't want to collect *args.
+
+def f(a, b, *, option=True):
+  ...
+
+
+No more, "Oops, I accidentally passed too many arguments to the function, and one of them was swalled by a keyword argument".
+
+def sum(a, b, biteme=False):
+  if biteme:
+      shutil.rmtree('/')
+  else:
+      return a + b
+>>> sum(1, 2)
+3
+>>> sum(1, 2, 3)
+
+
+>>> def test(*args, **kwargs):
+...     print(args)
+...     print(kwargs)
+
+
+
+>>> test('a','b','c',aa='aa',bb='bb')
+('a', 'b', 'c')
+{'bb': 'bb', 'aa': 'aa'}
+>>>
+>>>
+>>> test('a','b','c',{'aa':'aa','bb':'bb'})
+('a', 'b', 'c', {'bb': 'bb', 'aa': 'aa'})
+{}
+>>>
+>>> test('a','b','c',**{'aa':'aa','bb':'bb'})
+('a', 'b', 'c')
+{'bb': 'bb', 'aa': 'aa'}
+>>> test('a','b','c',['d','e','f'], **{'aa':'aa','bb':'bb'})
+('a', 'b', 'c', ['d', 'e', 'f'])
+{'bb': 'bb', 'aa': 'aa'}
+>>> test('a','b','c',*['d','e','f'], **{'aa':'aa','bb':'bb'})
+('a', 'b', 'c', 'd', 'e', 'f')
+{'bb': 'bb', 'aa': 'aa'}
+
+
+Feature 3: Chained exceptions
+#NOTE: 链式异常....
+
+
+
+Python 3 shows you the whole chain of exceptions:
+
+mycopy('noway', 'noway2')
+Traceback (most recent call last):
+File "<stdin>", line 3, in mycopy
+File "/Users/aaronmeurer/anaconda3/lib/python3.3/shutil.py", line 243, in copy2
+  copyfile(src, dst, follow_symlinks=follow_symlinks)
+File "/Users/aaronmeurer/anaconda3/lib/python3.3/shutil.py", line 109, in copyfile
+  with open(src, 'rb') as fsrc:
+PermissionError: [Errno 13] Permission denied: 'noway'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+File "<stdin>", line 5, in mycopy
+NotImplementedError: automatic sudo injection
+
+
+You can also do this manually using raise from
+
+raise exception from e
+>>> raise NotImplementedError from OSError
+OSError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+NotImplementedError
+
+
+
+Feature 4: Fine grained OSError subclasses
+## 新增了很多有用的子类
+
+Feature 5: Everything is an iterator
+## 所有的对象都是迭代器
+## 所有的编码都是字符集...
+
+
+Feature 5: Everything is an iterator
+
+This is the hardest one to sell.
+
+Iterators exist in Python 2 as well.
+
+But you have to use them. Don't write range or zip or dict.values or ....
+
+
+## 关于迭代器： py2 也有， 可以控制 list, tuple....
+
+
+
+>>> import timeit
+
+NAME
+    timeit - Tool for measuring execution time of small code snippets.
+
+DESCRIPTION
+    This module avoids a number of common traps for measuring execution
+    times.  See also Tim Peters' introduction to the Algorithms chapter in
+    the Python Cookbook, published by O'Reilly.
+
+    Library usage: see the Timer class.
+
+    Command line usage:
+        python timeit.py [-n N] [-r N] [-s S] [-t] [-c] [-p] [-h] [--] [statement]
+
+    Options:
+      -n/--number N: how many times to execute 'statement' (default: see below)
+      -r/--repeat N: how many times to repeat the timer (default 3)
+      -s/--setup S: statement to be executed once initially (default 'pass')
+      -p/--process: use time.process_time() (default is time.perf_counter())
+      -t/--time: use time.time() (deprecated)
+      -c/--clock: use time.clock() (deprecated)
+      -v/--verbose: print raw timing results; repeat for more digits precision
+
+
+Instead write some variant (xrange, itertools.izip, dict.itervalues, ...).
+
+Inconsistant API anyone?
+
+
+In Python 3, range, zip, map, dict.values, etc. are all iterators.
+
+If you want a list, just wrap the result with list.
+
+Explicit is better than implicit.
+##NOTE:
+清晰优于含蓄.
+
+Harder to write code that accidentally uses too much memory, because the input was bigger than you expected.
+
+
+hurray [hu'rei]
+
+基本释义
+
+n.狂热; 万岁呼声
+vi. 欢呼
+
+
+Feature 6: No more comparison of everything to everything
+
+It's because in Python 2, you can < compare anything to anything.
+
+>>> 'abc' > 123
+True
+>>> None > all
+False
+In Python 3, you can't do this:
+
+>>> 'one' > 2
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: unorderable types: str() > int()
+This avoids subtle bugs, e.g., from not coercing all types from int to str or visa versa.
+
+Especially when you use > implicitly, like with max or sorted.
+
+In Python 2:
+
+>>> sorted(['1', 2, '3'])
+[2, '1', '3']
+
+
+##NOTE:
+pthon3 移除了 “无差别比较”， 加了一些限制。这样做是比较好的....
+
+
+
+
+subtle ['sʌtl]
+adj. 微妙的；敏感的；狡猾的；精细的；稀薄的
+
+
+python2:
+>>> sorted(['1', 2, '3'])
+[2, '1', '3']
+
+
+python3:
+>>> sorted(['1', 2, '3'])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unorderable types: int() < str()
+
+
+
+Feature 7: yield from
+
+Pretty great if you use generators
+
+Instead of writing
+
+for i in gen():
+  yield i
+Just write
+
+yield from gen()
+Easily refactor generators into subgenerators.
+
+
+
+
+Feature 7: yield from
+
+Makes it easier to turn everything into a generator. See "Feature 5: Everything is an iterator" above for why you should do this.
+
+Instead of accumulating a list, just yield or yield from.
+
+Bad
+
+def dup(n):
+  A = []
+  for i in range(n):
+      A.extend([i, i])
+  return A
+Good
+
+def dup(n):
+  for i in range(n):
+      yield i
+      yield i
+Better
+
+def dup(n):
+  for i in range(n):
+      yield from [i, i]
+
+
+
+Feature 8: asyncio
+
+Uses new coroutines features and saved state of generators to do asynchronous IO.
+
+# Taken from Guido's slides from “Tulip: Async I/O for Python 3” by Guido
+# van Rossum, at LinkedIn, Mountain View, Jan 23, 2014
+@coroutine
+def fetch(host, port):
+  r,w = yield from open_connection(host,port)
+  w.write(b'GET /HTTP/1.0\r\n\r\n ')
+  while (yield from r.readline()).decode('latin-1').strip():
+      pass
+  body=yield from r.read()
+  return body
+
+@coroutine
+def start():
+  data = yield from fetch('python.org', 80)
+  print(data.decode('utf-8'))
+
+
+
+
+Slides were made with http://remarkjs.com/
+
+All images have been blatenly stolen from the internet.
+
+Source for slides can be found at https://github.com/asmeurer/python3-presentation.
+
+I am Aaron Meurer (@asmeurer).
+
+I gave this presentation on April 9, 2014 at APUG. If you are in Austin, TX and you enjoy Python, you should come to APUG!
+
+
+
+
+
+
+
+
+
+http://asmeurer.github.io/python3-presentation/slides.html#57
+#TODO: left ....   
+
+
+备忘：
+-----
+
+必须果断学 3，并且，万一有需要要写 Py2 的东西，记得最开始写上
+from __future__ import division, print_function
+
