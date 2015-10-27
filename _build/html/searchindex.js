@@ -1,0 +1,1 @@
+Search.setIndex({envversion:46,filenames:["helloworld","index"],objects:{},objnames:{},objtypes:{},terms:{content:[0,1],index:[0,1],modul:[0,1],page:[0,1],search:[0,1]},titles:["Hello World!","Welcome to jiaxiaolei&#8217;s documentation!"],titleterms:{document:1,hello:0,indic:[0,1],jiaxiaolei:1,tabl:[0,1],welcom:1,world:0}})
